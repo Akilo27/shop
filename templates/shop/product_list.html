@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% endblock %}
+{% block content %}
+    <div id="sidebar">
+    <h3>Categories</h3>
+    <div class="col-sm-6 col-md-4 col-lg-3 col-xl-10">
+        <div class="card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            <a class="btn btn-success rounded-pill px-2" href="{% url 'shop:product_list' %}" >Всё</a>
+            {% for c in categories %}
+                <a class="btn btn-success rounded-pill px-2" href="{{ c.get_absolute_url }}">{{ c.title }}</a>
+            {% endfor %}
+          </div>
+        </div>
+    </div>
+    </div>
+
+
+    <div id="main" class="product-list">
+    <h1>{% if category %}{{ category.title }}{% else %}Продукты{% endif %}</h1>
+    <div class="row">
+        {% for product in products %}
+        <div class="item">
+            <a href="{{ product.get_absolute_url }}">
+                <p>{{ product.title }}</p>
+                <img width="160" height="160" src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'img/no_image.png' %}{% endif %}">
+            </a>
+            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+            {{ product.price }} руб.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .item {
+        width: 10%;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .item a {
+        display: block;
+    }
+</style>
+{% endblock %}
+
